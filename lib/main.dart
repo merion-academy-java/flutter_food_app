@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_food_app/screens/catalog_screen.dart';
 import 'package:flutter_food_app/screens/order_detail_screen.dart';
 import 'package:flutter_food_app/screens/welcome_screen.dart';
+import 'package:flutter_food_app/state/app_state.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -15,17 +16,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final state = AppState();
+    state.load();
     return MaterialApp(
       title: 'Food Delivery App',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  MaterialApp.router(
+      home:  MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => state)
+        ],
+        child: MaterialApp.router(
           title: 'Food Delivery App',
           routerConfig: router(),
         ),
-
+      )
     );
   }
 
@@ -43,7 +50,7 @@ class MyApp extends StatelessWidget {
               ),
               GoRoute(
                 path: 'order',
-                builder: (context, state) => OrderDetailScreen(),
+                builder: (context, state) => const OrderDetailScreen(),
               ),
             ]
         ),

@@ -1,9 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/commons/colors.dart';
+import 'package:flutter_food_app/components/product_card_widget.dart';
+import 'package:flutter_food_app/models/product_in_cart_model.dart';
 
 class OrderCardWidget extends StatelessWidget {
-  const OrderCardWidget({super.key});
+  const OrderCardWidget({super.key, required this.productInCartModel, required this.addEvent, required this.removeEvent});
+
+  final ProductInCartModel productInCartModel;
+  final ProductAddEvent addEvent;
+  final ProductAddEvent removeEvent;
 
   @override
   Widget build(BuildContext context) {
@@ -17,25 +23,25 @@ class OrderCardWidget extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Image(
+                   Image(
                       fit: BoxFit.contain,
                       width: 120,
                       height: 120,
-                      image: AssetImage("img/pizza.png")),
-                  SizedBox(width: 24,height: 1,),
+                      image: AssetImage(productInCartModel.product.img)),
+                  const SizedBox(width: 24,height: 1,),
 
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        'Meat Pizza',
-                        style: TextStyle(
+                       Text(
+                        productInCartModel.product.title,
+                        style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold),
                       ),
-                      const Text(
-                        'Mixed Pizza',
-                        style: TextStyle(
+                       Text(
+                        productInCartModel.product.subtitle,
+                        style: const TextStyle(
                             fontSize: 12,
                             color: Color.fromRGBO(174, 174, 174, 1)),
                       ),
@@ -46,26 +52,30 @@ class OrderCardWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              const Text('\$ 8.30'),
+                               Text('\$ ${productInCartModel.product.price}'),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     // fixedSize: Size(30, 30),
                                       backgroundColor: ColorExtention.main,
                                       shape: const CircleBorder()),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    removeEvent(productInCartModel.product);
+                                  },
                                   child: const Icon(
                                     Icons.remove,
                                     color: Colors.white,
                                     size: 20,
                                   ),
                               ),
-                              const Text('1'),
+                               Text('${productInCartModel.count}'),
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                       // fixedSize: Size(30, 30),
                                       backgroundColor: ColorExtention.main,
                                       shape: const CircleBorder()),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    addEvent(productInCartModel.product);
+                                  },
                                   child: const Icon(
                                     Icons.add,
                                     color: Colors.white,

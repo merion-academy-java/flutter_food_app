@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_food_app/commons/colors.dart';
 
 class CategoryButtonWidget extends StatelessWidget {
-  const CategoryButtonWidget({super.key, required this.text});
+  const CategoryButtonWidget({super.key, required this.text, required this.onPressed});
 
   final String text;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +15,7 @@ class CategoryButtonWidget extends StatelessWidget {
             backgroundColor: ColorExtention.main,
             padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8)
         ),
-        onPressed: () {},
+        onPressed: onPressed,
         child: Text(
           text,
           style: const TextStyle(color: Colors.white, fontSize: 15),
